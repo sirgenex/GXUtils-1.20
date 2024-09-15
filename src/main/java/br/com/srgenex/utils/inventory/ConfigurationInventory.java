@@ -63,7 +63,7 @@ public class ConfigurationInventory {
             if(item != null){
                 ItemMeta meta = item.getItemMeta();
                 if(meta != null) {
-                    meta.spigot().setUnbreakable(true);
+                    meta.setUnbreakable(true);
                     meta.addItemFlags(ItemFlag.values());
                     item.setItemMeta(meta);
                 }

@@ -17,10 +17,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -36,14 +33,6 @@ public class ItemBuilder implements Cloneable {
         this.item = item.clone();
     }
 
-    public ItemBuilder(int type){
-        this(new ItemStack(type, 1, (short)0));
-    }
-
-    public ItemBuilder(int type, int amount){
-        this(new ItemStack(type, amount, (short)0));
-    }
-
     public ItemBuilder(Material type) {
         this(new ItemStack(type));
     }
@@ -52,13 +41,9 @@ public class ItemBuilder implements Cloneable {
         this(new ItemStack(type, quantity, data));
     }
 
-    public ItemBuilder(int type, int quantity, short data) {
-        this(new ItemStack(type, quantity, data));
-    }
-
     public ItemBuilder(String name) {
 
-        item = new ItemStack(Material.getMaterial(397), 1, (short) 3);
+        item = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
         meta.setOwner(name);
@@ -67,17 +52,20 @@ public class ItemBuilder implements Cloneable {
     }
 
     public ItemBuilder(FileConfiguration c, String path, String... replacements){
-        int id = c.getInt(path+".id", 1);
+        String type = c.getString(path+".type", "BEDROCK");
+        Material material = Material.getMaterial(type);
         int data = c.getInt(path+".data", 0);
-        item = new ItemStack(id, 1, (short)data);
+        assert material != null;
+        item = new ItemStack(material, 1, (short)data);
         if(c.getString(path+".color") != null) {
-            java.awt.Color color = java.awt.Color.decode(c.getString(path+".color"));
+            java.awt.Color color = java.awt.Color.decode(Objects.requireNonNull(c.getString(path + ".color")));
             color(Color.fromRGB(color.getRed(), color.getGreen(), color.getBlue()));
         }
         String name = c.getString(path+".name");
         for (String replacement : replacements) {
             String previous = replacement.split(";")[0];
             String next = replacement.split(";")[1];
+            assert name != null;
             name = name.replace(previous, next);
         }
         List<String> lore = null;
@@ -105,14 +93,9 @@ public class ItemBuilder implements Cloneable {
             texture(skullUrl);
         if(c.getString(path+".enchantments") != null)
             c.getStringList(path+".enchantments").forEach(s -> {
-                Enchantment enchantment;
-                try{
-                    int enchantID = Integer.parseInt(s.split(";")[0]);
-                    enchantment = Enchantment.getById(enchantID);
-                }catch(Exception ignored){
-                    enchantment = Enchantment.getByName(s.split(";")[0].toUpperCase());
-                }
+                Enchantment enchantment =Enchantment.getByName(s.split(";")[0].toUpperCase());
                 int level = Integer.parseInt(s.split(";")[1]);
+                assert enchantment != null;
                 item.addUnsafeEnchantment(enchantment, level);
             });
         if(c.getString(path+".flag") != null)
@@ -128,7 +111,7 @@ public class ItemBuilder implements Cloneable {
 
     public ItemBuilder(FileConfiguration c, String path, String player, boolean a, String... replacements){
         this(c, path, replacements);
-        if(item.getType().equals(Material.SKULL_ITEM))
+        if(item.getType().equals(Material.PLAYER_HEAD))
             head(player);
     }
 
@@ -227,7 +210,7 @@ public class ItemBuilder implements Cloneable {
 
     public void texture(String target) {
         changeItem(item -> {
-            item.setType(Material.SKULL_ITEM);
+            item.setType(Material.PLAYER_HEAD);
             item.setDurability((short) 3);
             ItemMeta meta = item.getItemMeta();
             final SkullMeta skullMeta = (SkullMeta) meta;
@@ -249,7 +232,7 @@ public class ItemBuilder implements Cloneable {
 
     public ItemBuilder head(String player) {
         return changeItem(item -> {
-            item.setType(Material.SKULL_ITEM);
+            item.setType(Material.PLAYER_HEAD);
             item.setDurability((short)3);
             SkullMeta meta = (SkullMeta)item.getItemMeta();
             meta.setOwner(player);
@@ -271,7 +254,7 @@ public class ItemBuilder implements Cloneable {
     }
 
     public ItemBuilder unbreakable() {
-        return changeItemMeta(itemMeta -> itemMeta.spigot().setUnbreakable(true));
+        return changeItemMeta(itemMeta -> itemMeta.setUnbreakable(true));
     }
 
     public ItemBuilder addFlag(ItemFlag... itemFlag) {
