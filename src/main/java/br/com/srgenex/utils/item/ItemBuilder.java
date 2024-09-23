@@ -52,7 +52,7 @@ public class ItemBuilder implements Cloneable {
     }
 
     public ItemBuilder(FileConfiguration c, String path, String... replacements){
-        String type = c.getString(path+".type", "BEDROCK");
+        String type = c.getString(path+".item", "BEDROCK");
         Material material = Material.getMaterial(type);
         int data = c.getInt(path+".data", 0);
         assert material != null;
@@ -266,15 +266,12 @@ public class ItemBuilder implements Cloneable {
     }
 
     public ItemStack wrap(String... replacement) {
-        ItemStack real = this.item.clone();
         if(getItem().hasItemMeta()) {
             String name = getItem().getItemMeta().getDisplayName();
             if (name != null) name(name, replacement);
             List<String> lore = getItem().getItemMeta().getLore();
             if (lore != null) setLore(lore, replacement);
         }
-        ItemStack item = this.item.clone();
-        this.item = real;
         return item;
     }
 
