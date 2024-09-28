@@ -107,6 +107,8 @@ public class ItemBuilder implements Cloneable {
             addFlag(ItemFlag.HIDE_ENCHANTS);
             enchant(Enchantment.PROTECTION_PROJECTILE, 1);
         }
+        String customModel = c.getString(path + ".custom-model");
+        if (customModel != null) customModel(Integer.parseInt(customModel));
     }
 
     public ItemBuilder(FileConfiguration c, String path, String player, boolean a, String... replacements){
@@ -127,6 +129,11 @@ public class ItemBuilder implements Cloneable {
 
     public ItemBuilder addTag(String key, Double value){
         item = NBTUtils.setDouble(item, key, value);
+        return this;
+    }
+
+    public ItemBuilder customModel(Integer data) {
+        changeItemMeta(meta -> meta.setCustomModelData(data));
         return this;
     }
 
