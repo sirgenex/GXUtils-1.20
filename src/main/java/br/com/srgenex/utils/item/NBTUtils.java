@@ -47,6 +47,15 @@ public class NBTUtils {
         return item;
     }
 
+    public static ItemStack setBoolean(ItemStack item, String key, Boolean value) {
+        if (item == null || item.getType() == Material.AIR) return item;
+        ItemMeta meta = item.getItemMeta();
+        if(meta == null) return item;
+        meta.getPersistentDataContainer().set(Objects.requireNonNull(NamespacedKey.fromString(key, GXUtils.getInstance())), PersistentDataType.BOOLEAN, value);
+        item.setItemMeta(meta);
+        return item;
+    }
+
     public static String getString(ItemStack item, String key) {
         if (item == null || item.getType() == Material.AIR) return null;
         ItemMeta meta = item.getItemMeta();
@@ -66,6 +75,13 @@ public class NBTUtils {
         ItemMeta meta = item.getItemMeta();
         if(meta == null) return null;
         return meta.getPersistentDataContainer().get(Objects.requireNonNull(NamespacedKey.fromString(key, GXUtils.getInstance())), PersistentDataType.DOUBLE);
+    }
+
+    public static Boolean getBoolean(ItemStack item, String key) {
+        if (item == null || item.getType() == Material.AIR) return null;
+        ItemMeta meta = item.getItemMeta();
+        if(meta == null) return null;
+        return meta.getPersistentDataContainer().get(Objects.requireNonNull(NamespacedKey.fromString(key, GXUtils.getInstance())), PersistentDataType.BOOLEAN);
     }
 
 }

@@ -132,6 +132,11 @@ public class ItemBuilder implements Cloneable {
         return this;
     }
 
+    public ItemBuilder addTag(String key, Boolean value){
+        item = NBTUtils.setBoolean(item, key, value);
+        return this;
+    }
+
     public ItemBuilder customModel(Integer data) {
         changeItemMeta(meta -> meta.setCustomModelData(data));
         return this;
