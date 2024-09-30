@@ -1,10 +1,10 @@
 package br.com.srgenex.utils.inventory.container.holder;
 
 import br.com.srgenex.utils.inventory.container.Container;
+import br.com.srgenex.utils.inventory.container.size.Size;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import br.com.srgenex.utils.inventory.container.size.Size;
 
 public class ContainerHolder implements InventoryHolder {
 

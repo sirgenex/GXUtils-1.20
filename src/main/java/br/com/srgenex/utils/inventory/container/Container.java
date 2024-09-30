@@ -1,14 +1,14 @@
 package br.com.srgenex.utils.inventory.container;
 
+import br.com.srgenex.utils.inventory.container.holder.ContainerHolder;
+import br.com.srgenex.utils.inventory.container.icon.Icon;
+import br.com.srgenex.utils.inventory.container.size.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
-import br.com.srgenex.utils.inventory.container.holder.ContainerHolder;
-import br.com.srgenex.utils.inventory.container.icon.Icon;
-import br.com.srgenex.utils.inventory.container.size.Size;
 
 import java.util.function.Consumer;
 

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -49,17 +50,17 @@ public class Hologram {
         }
     }
 
-    public Hologram(Location loc, String... lines) {
-        this(loc, Arrays.asList(lines));
+    public Hologram(Location loc, ItemStack item, String... lines) {
+        this(loc, Arrays.asList(lines), item);
     }
 
-    public Hologram(Location loc, List<String> lines) {
+    public Hologram(Location loc, List<String> lines, ItemStack item) {
         this.players = new ArrayList<>();
         this.spawnCache = new ArrayList<>();
         this.destroyCache = new ArrayList<>();
         Location displayLoc = loc.clone().add(0, (ABS * lines.size()) - 1.97D, 0);
         for (String line : lines) {
-            Object packet = this.getPacket(loc.getWorld(), displayLoc.getX()+0.5, displayLoc.getY(), displayLoc.getZ()+0.5, line.replace("&", "§"));
+            Object packet = this.getPacket(loc.getWorld(), displayLoc.getX()+0.5, displayLoc.getY(), displayLoc.getZ()+0.5, line.replace("&", "§"), item);
             if (!line.equals("")) this.spawnCache.add(packet);
             try {
                 Field field = packetClass.getDeclaredField("a");
@@ -92,13 +93,15 @@ public class Hologram {
         Bukkit.getOnlinePlayers().forEach(this::destroy);
     }
 
-    private Object getPacket(World w, double x, double y, double z, String text) {
+    private Object getPacket(World w, double x, double y, double z, String text, ItemStack item) {
         try {
             Object craftWorldObj = craftWorld.cast(w);
             Method getHandleMethod = craftWorldObj.getClass().getMethod("getHandle");
             Object entityObject = armorStandConstructor.newInstance(getHandleMethod.invoke(craftWorldObj));
             Method setCustomName = entityObject.getClass().getMethod("setCustomName", String.class);
             setCustomName.invoke(entityObject, text);
+            Method setItemInHand = entityObject.getClass().getMethod("setItemInHand", ItemStack.class);
+            setItemInHand.invoke(entityObject, item);
             Method setGravity = entityObject.getClass().getMethod("setGravity", boolean.class);
             setGravity.invoke(entityObject, false);
             Method setCustomNameVisible = nmsEntity.getMethod("setCustomNameVisible", boolean.class);

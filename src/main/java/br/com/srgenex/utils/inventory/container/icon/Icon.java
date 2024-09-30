@@ -2,12 +2,12 @@ package br.com.srgenex.utils.inventory.container.icon;
 
 import br.com.srgenex.utils.inventory.container.Container;
 import br.com.srgenex.utils.inventory.container.holder.ContainerHolder;
+import br.com.srgenex.utils.item.ItemBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import br.com.srgenex.utils.item.ItemBuilder;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
