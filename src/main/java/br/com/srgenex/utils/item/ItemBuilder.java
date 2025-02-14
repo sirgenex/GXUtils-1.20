@@ -8,12 +8,14 @@ import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.MusicInstrument;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.MusicInstrumentMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
@@ -106,6 +108,9 @@ public class ItemBuilder implements Cloneable {
         if(c.getBoolean(path+".glow")){
             addFlag(ItemFlag.HIDE_ENCHANTS);
             enchant(Enchantment.PROTECTION_PROJECTILE, 1);
+        }
+        if(c.getString(path+".goat-instrument") != null){
+            goatInstrument(c.getString(path+".goat-instrument"));
         }
         String customModel = c.getString(path + ".custom-model");
         if (customModel != null) customModel(Integer.parseInt(customModel));
@@ -267,6 +272,26 @@ public class ItemBuilder implements Cloneable {
 
     public ItemBuilder unbreakable() {
         return changeItemMeta(itemMeta -> itemMeta.setUnbreakable(true));
+    }
+
+    public ItemBuilder goatInstrument(String instrument){
+        return changeItem(item -> {
+            MusicInstrumentMeta m = (MusicInstrumentMeta) item.getItemMeta();
+            if(m == null) return;
+            switch (instrument.toLowerCase()) {
+                case "call" -> m.setInstrument(MusicInstrument.CALL);
+                case "admire" -> m.setInstrument(MusicInstrument.ADMIRE);
+                case "feel" -> m.setInstrument(MusicInstrument.FEEL);
+                case "dream" -> m.setInstrument(MusicInstrument.DREAM);
+                case "ponder" -> m.setInstrument(MusicInstrument.PONDER);
+                case "seek" -> m.setInstrument(MusicInstrument.SEEK);
+                case "yearn" -> m.setInstrument(MusicInstrument.YEARN);
+                case "sing" -> m.setInstrument(MusicInstrument.SING);
+                default -> {
+                }
+            }
+            item.setItemMeta(m);
+        });
     }
 
     public ItemBuilder addFlag(ItemFlag... itemFlag) {
