@@ -107,7 +107,7 @@ public class ItemBuilder implements Cloneable {
             });
         if(c.getBoolean(path+".glow")){
             addFlag(ItemFlag.HIDE_ENCHANTS);
-            enchant(Enchantment.PROTECTION_PROJECTILE, 1);
+            enchant(Enchantment.PROJECTILE_PROTECTION, 1);
         }
         if(c.getString(path+".goat-instrument") != null){
             goatInstrument(c.getString(path+".goat-instrument"));
@@ -262,7 +262,7 @@ public class ItemBuilder implements Cloneable {
     }
 
     public ItemBuilder glow() {
-        enchant(Enchantment.LUCK, 1);
+        enchant(Enchantment.LUCK_OF_THE_SEA, 1);
         return changeItemMeta(itemMeta -> itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS));
     }
 
@@ -279,14 +279,14 @@ public class ItemBuilder implements Cloneable {
             MusicInstrumentMeta m = (MusicInstrumentMeta) item.getItemMeta();
             if(m == null) return;
             switch (instrument.toLowerCase()) {
-                case "call" -> m.setInstrument(MusicInstrument.CALL);
-                case "admire" -> m.setInstrument(MusicInstrument.ADMIRE);
-                case "feel" -> m.setInstrument(MusicInstrument.FEEL);
-                case "dream" -> m.setInstrument(MusicInstrument.DREAM);
-                case "ponder" -> m.setInstrument(MusicInstrument.PONDER);
-                case "seek" -> m.setInstrument(MusicInstrument.SEEK);
-                case "yearn" -> m.setInstrument(MusicInstrument.YEARN);
-                case "sing" -> m.setInstrument(MusicInstrument.SING);
+                case "call" -> m.setInstrument(MusicInstrument.CALL_GOAT_HORN);
+                case "admire" -> m.setInstrument(MusicInstrument.ADMIRE_GOAT_HORN);
+                case "feel" -> m.setInstrument(MusicInstrument.FEEL_GOAT_HORN);
+                case "dream" -> m.setInstrument(MusicInstrument.DREAM_GOAT_HORN);
+                case "ponder" -> m.setInstrument(MusicInstrument.PONDER_GOAT_HORN);
+                case "seek" -> m.setInstrument(MusicInstrument.SEEK_GOAT_HORN);
+                case "yearn" -> m.setInstrument(MusicInstrument.YEARN_GOAT_HORN);
+                case "sing" -> m.setInstrument(MusicInstrument.SING_GOAT_HORN);
                 default -> {
                 }
             }
