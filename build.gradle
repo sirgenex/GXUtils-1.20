@@ -51,6 +51,7 @@ shadowJar{
 
 dependencies {
     implementation 'commons-codec:commons-codec:1.17.1'
+    implementation 'fr.skytasul:glowingentities:1.4.3'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
     compileOnly 'org.projectlombok:lombok:1.18.26'
     compileOnly 'org.spigotmc:spigot:1.21.1-R0.1-SNAPSHOT'
