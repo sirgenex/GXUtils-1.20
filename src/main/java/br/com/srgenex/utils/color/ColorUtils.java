@@ -19,8 +19,6 @@ public class ColorUtils {
             matcher = pattern.matcher(message);
         }
 
-        System.out.println("TRANSLATED: "+message);
-
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
