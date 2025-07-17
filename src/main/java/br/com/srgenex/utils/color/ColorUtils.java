@@ -9,17 +9,20 @@ public class ColorUtils {
 
     private static final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
 
-    public static String translate(String input) {
-        String message = ChatColor.translateAlternateColorCodes('&', input);
+    public static String translate(String message) {
         Matcher matcher = pattern.matcher(message);
 
         while (matcher.find()) {
-            String hexCode = message.substring(matcher.start(), matcher.end());
-            message = message.replace(hexCode, net.md_5.bungee.api.ChatColor.of(hexCode).toString());
+            String hexCode = matcher.group();
+            String replacement = net.md_5.bungee.api.ChatColor.of(hexCode).toString();
+            message = message.replace(hexCode, replacement);
             matcher = pattern.matcher(message);
         }
 
-        return message;
+        System.out.println("TRANSLATED: "+message);
+
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
+
 
 }

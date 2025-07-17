@@ -5,14 +5,14 @@ plugins {
 }
 
 group 'br.com.srgenex'
-version '1.20'
+version '1.21'
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId = "br.com.srgenex"
             artifactId = "utils"
-            version = "1.20"
+            version = "1.21"
 
             from components.java
         }
@@ -28,15 +28,11 @@ repositories {
 }
 
 repositories {
-    maven {
-        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-        content {
-            includeGroup 'org.bukkit'
-            includeGroup 'org.spigotmc'
-        }
-    }
     maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
     maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+    maven {
+        url = uri("https://repo.papermc.io/repository/maven-public/")
+    }
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -51,7 +47,9 @@ shadowJar{
 
 dependencies {
     implementation 'commons-codec:commons-codec:1.17.1'
-    annotationProcessor 'org.projectlombok:lombok:1.18.26'
-    compileOnly 'org.projectlombok:lombok:1.18.26'
-    compileOnly 'org.spigotmc:spigot:1.21.1-R0.1-SNAPSHOT'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    compileOnly ("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly 'com.mojang:authlib:1.5.25'
+
 }
