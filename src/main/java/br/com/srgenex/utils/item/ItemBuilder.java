@@ -22,6 +22,8 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Getter
@@ -225,14 +227,14 @@ public class ItemBuilder implements Cloneable {
         });
     }
 
-    public void texture(String target) {
+    public ItemBuilder texture(String target) {
         changeItem(item -> {
             item.setType(Material.PLAYER_HEAD);
             item.setDurability((short) 3);
             ItemMeta meta = item.getItemMeta();
             final SkullMeta skullMeta = (SkullMeta) meta;
 
-            final GameProfile gameProfile = new GameProfile(UUID.randomUUID(), null);
+            final GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "");
 
             gameProfile.getProperties().put("textures", new Property("textures", target));
 
@@ -245,6 +247,7 @@ public class ItemBuilder implements Cloneable {
             }
             item.setItemMeta(meta);
         });
+        return this;
     }
 
     public ItemBuilder head(String player) {
@@ -257,8 +260,9 @@ public class ItemBuilder implements Cloneable {
         });
     }
 
-    public void enchant(Enchantment enchantment, int level) {
+    public ItemBuilder enchant(Enchantment enchantment, int level) {
         changeItemMeta(itemMeta -> itemMeta.addEnchant(enchantment, level, true));
+        return this;
     }
 
     public ItemBuilder glow() {
@@ -312,8 +316,19 @@ public class ItemBuilder implements Cloneable {
         return item;
     }
 
-    private static String colored(String message) {
-        return ChatColor.translateAlternateColorCodes('&', message);
+    private static final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+
+    private static String colored(String input) {
+        String message = ChatColor.translateAlternateColorCodes('&', input);
+        Matcher matcher = pattern.matcher(message);
+
+        while (matcher.find()) {
+            String hexCode = message.substring(matcher.start(), matcher.end());
+            message = message.replace(hexCode, net.md_5.bungee.api.ChatColor.of(hexCode).toString());
+            matcher = pattern.matcher(message);
+        }
+
+        return message;
     }
 
     private static String[] colored(String... messages) {
