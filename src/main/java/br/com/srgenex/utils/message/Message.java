@@ -1,6 +1,7 @@
 package br.com.srgenex.utils.message;
 
 import br.com.srgenex.utils.GXUtils;
+import br.com.srgenex.utils.color.ColorUtils;
 import br.com.srgenex.utils.placeholder.ReplacementPlaceholder;
 import lombok.Data;
 import org.bukkit.Bukkit;
@@ -43,7 +44,7 @@ public class Message {
         message.forEach(msg -> {
             for (ReplacementPlaceholder replacement : replacements)
                 msg = msg.replace(replacement.getPlaceholder(), replacement.getReplacement());
-            p.sendMessage(msg.trim().replace("&", "§"));
+            p.sendMessage(ColorUtils.translate(msg.trim()));
         });
     }
 

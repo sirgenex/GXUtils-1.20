@@ -1,5 +1,6 @@
 package br.com.srgenex.utils.item;
 
+import br.com.srgenex.utils.color.ColorUtils;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -319,16 +320,7 @@ public class ItemBuilder implements Cloneable {
     private static final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
 
     private static String colored(String input) {
-        String message = ChatColor.translateAlternateColorCodes('&', input);
-        Matcher matcher = pattern.matcher(message);
-
-        while (matcher.find()) {
-            String hexCode = message.substring(matcher.start(), matcher.end());
-            message = message.replace(hexCode, net.md_5.bungee.api.ChatColor.of(hexCode).toString());
-            matcher = pattern.matcher(message);
-        }
-
-        return message;
+        return ColorUtils.translate(input);
     }
 
     private static String[] colored(String... messages) {
