@@ -43,7 +43,7 @@ public class Message {
     public void send(Player p, List<ReplacementPlaceholder> replacements) {
         message.forEach(msg -> {
             for (ReplacementPlaceholder replacement : replacements)
-                msg = msg.replace(replacement.getPlaceholder(), replacement.getReplacement());
+                msg = msg.replace(replacement.getPlaceholder(), ColorUtils.translate(replacement.getReplacement()));
             p.sendMessage(ColorUtils.translate(msg.trim()));
         });
     }
@@ -53,7 +53,7 @@ public class Message {
             message.forEach(msg -> {
                 for (String replacement : replacements) {
                     String[] s = replacement.split(", ");
-                    msg = msg.replace(s[0], s[1]);
+                    msg = msg.replace(s[0], ColorUtils.translate(s[1]));
                 }
                 sender.sendMessage(msg.trim().replace("&", "§"));
             });
