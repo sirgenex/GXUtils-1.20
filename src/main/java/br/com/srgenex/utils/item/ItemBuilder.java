@@ -1,15 +1,14 @@
 package br.com.srgenex.utils.item;
 
 import br.com.srgenex.utils.color.ColorUtils;
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.MusicInstrument;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -228,25 +227,28 @@ public class ItemBuilder implements Cloneable {
         });
     }
 
-    public ItemBuilder texture(String target) {
+    public ItemBuilder texture(String base64) {
         changeItem(item -> {
             item.setType(Material.PLAYER_HEAD);
-            item.setDurability((short) 3);
-            ItemMeta meta = item.getItemMeta();
-            final SkullMeta skullMeta = (SkullMeta) meta;
 
-            final GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "");
-
-            gameProfile.getProperties().put("textures", new Property("textures", target));
-
+            SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
             try {
-                final Field field = skullMeta.getClass().getDeclaredField("profile");
-                field.setAccessible(true);
-                field.set(skullMeta, gameProfile);
-            } catch (Exception e) {
-                e.printStackTrace();
+                // Try via NMS/GameProfile (Spigot method)
+                GameProfile profile = new GameProfile(UUID.randomUUID(), UUID.randomUUID().toString().substring(0, 16));
+                profile.getProperties().put("textures", new Property("textures", base64));
+
+                Field profileField = skullMeta.getClass().getDeclaredField("profile");
+                profileField.setAccessible(true);
+                profileField.set(skullMeta, profile);
+
+            } catch (Exception ex) {
+                // Paper/Folia fallback
+                PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID(), UUID.randomUUID().toString().substring(0, 16));
+                profile.setProperty(new ProfileProperty("textures", base64));
+                skullMeta.setPlayerProfile(profile);
             }
-            item.setItemMeta(meta);
+
+            item.setItemMeta(skullMeta);
         });
         return this;
     }
