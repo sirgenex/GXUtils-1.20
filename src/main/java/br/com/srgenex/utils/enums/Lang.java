@@ -11,10 +11,10 @@ public enum Lang {
     HOUR("hour", "hora"),
     MINUTE("minute", "minuto"),
     SECOND("second", "segundo"),
-    MILISECOND("some miliseconds", "alguns milisegundos"),
+    MILLISECOND("some milliseconds", "alguns milisegundos"),
     AND("and", "e");
 
-    private String english, portuguese;
+    private final String english, portuguese;
 
     public String get(Locale locale){
         return switch (locale) {

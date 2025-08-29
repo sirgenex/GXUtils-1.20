@@ -82,7 +82,7 @@ public class Formatter {
             s.append(seconds).append(" ").append(Lang.SECOND.get(locale)).append(seconds > 1 ? "s" : "");
         }
 
-        return !s.isEmpty() ? s.toString().trim() : Lang.MILISECOND.get(locale);
+        return !s.isEmpty() ? s.toString().trim() : Lang.MILLISECOND.get(locale);
     }
 
     public static String getRemainingTimeSmall(long time) {
