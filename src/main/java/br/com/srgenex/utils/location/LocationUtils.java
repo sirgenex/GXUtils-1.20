@@ -41,6 +41,8 @@ public class LocationUtils {
 
 
     public static Location valueOf(String loc) {
+        if(loc == null) return Bukkit.getWorlds().getFirst().getSpawnLocation();
+        if(loc.split(";").length < 6) return Bukkit.getWorlds().getFirst().getSpawnLocation();
         World world = Bukkit.getWorld(loc.split(";")[0].split("=")[1]);
         int x = Integer.parseInt(loc.split(";")[1].split("=")[1]);
         int y = Integer.parseInt(loc.split(";")[2].split("=")[1]);
