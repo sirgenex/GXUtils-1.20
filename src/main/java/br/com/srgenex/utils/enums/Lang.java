@@ -1,5 +1,6 @@
 package br.com.srgenex.utils.enums;
 
+import br.com.srgenex.utils.GXUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,7 +13,8 @@ public enum Lang {
     MINUTE("minute", "minuto"),
     SECOND("second", "segundo"),
     MILLISECOND("some milliseconds", "alguns milisegundos"),
-    AND("and", "e");
+    AND("and", "e"),
+    NO_ONE("no one", "ninguém");
 
     private final String english, portuguese;
 
@@ -21,6 +23,19 @@ public enum Lang {
             case ENGLISH -> getEnglish();
             case PORTUGUESE -> getPortuguese();
         };
+    }
+
+    public String getCapitalized(Locale locale){
+        String text = get(locale);
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
+    }
+
+    public String get(){
+        return get(GXUtils.getLocale());
+    }
+
+    public String getCapitalized(){
+        return getCapitalized(GXUtils.getLocale());
     }
 
 }

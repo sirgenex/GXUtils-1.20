@@ -16,6 +16,7 @@ public class GXUtils {
     public static void load(Plugin plugin){
         Bukkit.getPluginManager().registerEvents(new ToolingHandler(), plugin);
         instance = plugin;
+        locale = Locale.PORTUGUESE;
     }
 
     public static void load(Plugin plugin, Locale locale){
