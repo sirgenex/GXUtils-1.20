@@ -134,6 +134,16 @@ public class Formatter {
         return s.isEmpty() ? "00:00" : s.toString().trim();
     }
 
+    public static String formatType(String type){
+        StringBuilder s = new StringBuilder();
+        for (String str : type.split("_")) {
+            s.append(str.substring(0, 1).toUpperCase());
+            s.append(str.substring(1).toLowerCase());
+            s.append(" ");
+        }
+        return s.toString();
+    }
+
     public static String formatPercent(double percent){
         return new DecimalFormat("##.##").format(percent);
     }
