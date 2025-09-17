@@ -16,12 +16,12 @@ import java.util.function.Consumer;
 @Getter
 public abstract class Container {
 
-    private final ContainerHolder holder;
+    private ContainerHolder holder;
 
-    private final String name;
-    private final Size size;
+    private String name;
+    private Size size;
 
-    private final Icon[] icons;
+    private Icon[] icons;
     private Consumer<InventoryClickEvent> consumer = null;
     @Setter private Consumer<InventoryCloseEvent> closeConsumer = null;
     @Setter private boolean closeable = true;
@@ -31,6 +31,18 @@ public abstract class Container {
         this.name = name;
         this.size = size;
         holder = new ContainerHolder(this);
+        this.icons = new Icon[size.getAmount()];
+    }
+
+    public void setTitle(String name){
+        this.name = name;
+        this.holder = new ContainerHolder(this);
+        this.icons = new Icon[size.getAmount()];
+    }
+
+    public void setSize(Size size){
+        this.size = size;
+        this.holder = new ContainerHolder(this);
         this.icons = new Icon[size.getAmount()];
     }
 
