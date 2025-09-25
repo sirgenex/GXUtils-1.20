@@ -47,6 +47,8 @@ shadowJar{
 
 dependencies {
     implementation 'commons-codec:commons-codec:1.17.1'
+    implementation 'com.zaxxer:HikariCP:5.1.0'
+
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
     compileOnly 'org.projectlombok:lombok:1.18.38'
     compileOnly ("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
