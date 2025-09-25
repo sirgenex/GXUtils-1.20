@@ -152,4 +152,16 @@ public class Formatter {
         return new DecimalFormat("##.##").format(percent);
     }
 
+    public static String toDecimal(long number) {
+        return String.format("%,d", number);
+    }
+
+    public static String toDecimal(int number) {
+        return String.format("%,d", number);
+    }
+
+    public static String toDecimal(double number) {
+        return String.format("%,.0f", number);
+    }
+
 }
