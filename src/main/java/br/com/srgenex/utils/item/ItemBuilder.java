@@ -161,6 +161,11 @@ public class ItemBuilder implements Cloneable {
         return this;
     }
 
+    public ItemBuilder type(Material type){
+        item.setType(type);
+        return this;
+    }
+
     public ItemBuilder name(String name, String... replacements) {
         if (name == null) System.out.println("Tried to update a name that is null");
         for (String replacement : replacements) {
