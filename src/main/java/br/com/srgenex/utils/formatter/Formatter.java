@@ -141,7 +141,7 @@ public class Formatter {
             s.append(str.substring(1).toLowerCase());
             s.append(" ");
         }
-        return s.toString();
+        return s.toString().trim();
     }
 
     public static String formatPercent(double percent){
