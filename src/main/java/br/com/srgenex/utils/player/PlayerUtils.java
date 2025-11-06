@@ -9,7 +9,7 @@ import java.util.UUID;
 public class PlayerUtils {
 
     public static String getName(UUID uniqueId) {
-        if(uniqueId == null) return Lang.DAY.getCapitalized();
+        if(uniqueId == null) return Lang.NO_ONE.getCapitalized();
         return Bukkit.getPlayer(uniqueId) == null ? Bukkit.getOfflinePlayer(uniqueId).getName() : Objects.requireNonNull(Bukkit.getPlayer(uniqueId)).getName();
     }
 
