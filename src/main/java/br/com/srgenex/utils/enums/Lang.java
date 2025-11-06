@@ -12,7 +12,7 @@ public enum Lang {
     HOUR("hour", "hora"),
     MINUTE("minute", "minuto"),
     SECOND("second", "segundo"),
-    MILLISECOND("some milliseconds", "alguns milisegundos"),
+    MILLISECOND("0ms", "0ms"),
     AND("and", "e"),
     NO_ONE("no one", "ninguém");
 
