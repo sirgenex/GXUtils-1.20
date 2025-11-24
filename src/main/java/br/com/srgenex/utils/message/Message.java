@@ -10,10 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @SuppressWarnings({"unused"})
 @Data
@@ -34,6 +31,11 @@ public class Message {
 
     public static Message of(String path) {
         return new Message(messages.getOrDefault(path, Collections.singletonList("&cUnknown message. Path: " + path + " - Plugin: "+ GXUtils.getInstance().getName())));
+    }
+
+    public Optional<String> getSingle() {
+        if (message.size() == 1) return Optional.of(message.getFirst());
+        return Optional.empty();
     }
 
     public void send(CommandSender sender, List<ReplacementPlaceholder> replacements) {
