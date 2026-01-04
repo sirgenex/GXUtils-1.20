@@ -1,6 +1,8 @@
 package br.com.srgenex.utils.database;
 
 import br.com.srgenex.utils.GXUtils;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.ConfigurationSection;
@@ -13,9 +15,6 @@ import java.sql.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 
 @SuppressWarnings("unused")
 @Getter
