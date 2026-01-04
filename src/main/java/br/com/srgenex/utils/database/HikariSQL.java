@@ -22,7 +22,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class HikariSQL {
 
     private DataSource dataSource;
-    private final ExecutorService executor;
+    private ExecutorService executor;
     @Getter
     private static HikariSQL instance;
 
@@ -39,9 +39,9 @@ public class HikariSQL {
 
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl("jdbc:sqlite:" + dbFile.getPath());
-            config.setMaximumPoolSize(10);
+            config.setMaximumPoolSize(1);
             config.setConnectionTestQuery("SELECT 1");
-
+            this.executor = Executors.newSingleThreadExecutor();
             this.dataSource = new HikariDataSource(config);
 
         } catch (Exception e) {
