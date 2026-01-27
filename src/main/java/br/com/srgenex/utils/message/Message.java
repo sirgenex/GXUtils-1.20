@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 @SuppressWarnings({"unused"})
 @Data
@@ -70,6 +71,14 @@ public class Message {
         if (sender.isOnline()) send(sender.getPlayer(), replacements);
     }
 
+    public void sendIf(Predicate<Player> condition, String... replacements) {
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if(condition.test(player)) {
+                send(player, replacements);
+            }
+        });
+    }
+
     public void broadcast(String... replacements) {
         Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements));
     }
@@ -77,6 +86,14 @@ public class Message {
     public void broadcast(String permission, String... replacements) {
         Bukkit.getOnlinePlayers().forEach(player -> {
             if(player.hasPermission(permission)) {
+                send(player, replacements);
+            }
+        });
+    }
+
+    public void broadcastIf(Predicate<Player> condition, String... replacements) {
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if(condition.test(player)) {
                 send(player, replacements);
             }
         });
