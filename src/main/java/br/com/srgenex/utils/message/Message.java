@@ -74,4 +74,12 @@ public class Message {
         Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements));
     }
 
+    public void broadcast(String permission, String... replacements) {
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if(player.hasPermission(permission)) {
+                send(player, replacements);
+            }
+        });
+    }
+
 }
