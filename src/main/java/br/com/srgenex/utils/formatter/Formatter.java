@@ -6,6 +6,8 @@ import br.com.srgenex.utils.enums.Locale;
 
 import java.text.DecimalFormat;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class Formatter {
@@ -52,39 +54,32 @@ public class Formatter {
         return getRemainingTime(time, GXUtils.getLocale());
     }
 
-    public static String getRemainingTime(long time, Locale locale) {
-        StringBuilder s = new StringBuilder();
-        Duration remainingTime = Duration.ofMillis(time);
-        long days = remainingTime.toDays();
-        remainingTime = remainingTime.minusDays(days);
-        long hours = remainingTime.toHours();
-        remainingTime = remainingTime.minusHours(hours);
-        long minutes = remainingTime.toMinutes();
-        remainingTime = remainingTime.minusMinutes(minutes);
-        long seconds = remainingTime.getSeconds();
+    public static String getRemainingTime(long millis, Locale locale) {
+        if (millis <= 0) return "0 " + Lang.SECOND.get(locale);
 
-        if (days > 0) s.append(days).append(" ").append(Lang.DAY.get(locale)).append(days > 1 ? "s" : "");
+        List<String> parts = new ArrayList<>();
+        Duration d = Duration.ofMillis(millis);
+        long days = d.toDays();
+        long hours = d.toHours() % 24;
+        long minutes = d.toMinutes() % 60;
+        long seconds = d.getSeconds() % 60;
 
-        if (hours > 0) {
-            if (days > 0 && minutes > 0 || days > 0 && seconds > 0) s.append(", ");
-            if(minutes <= 0 && seconds <= 0 && days > 0) s.append(" ").append(Lang.AND.get(locale)).append(" ");
-            s.append(hours).append(" ").append(Lang.HOUR.get(locale)).append(hours > 1 ? "s" : "");
-        }
+        if (days > 0) parts.add(days + " " + Lang.DAY.get(locale) + (days > 1 ? "s" : ""));
+        if (hours > 0) parts.add(hours + " " + Lang.HOUR.get(locale) + (hours > 1 ? "s" : ""));
+        if (minutes > 0) parts.add(minutes + " " + Lang.MINUTE.get(locale) + (minutes > 1 ? "s" : ""));
+        if (seconds > 0) parts.add(seconds + " " + Lang.SECOND.get(locale) + (seconds > 1 ? "s" : ""));
 
-        if (minutes > 0) {
-            if (hours > 0 && seconds > 0) s.append(", ");
-            if(seconds <= 0 && hours > 0) s.append(" ").append(Lang.AND.get(locale)).append(" ");
-            s.append(minutes).append(" ").append(Lang.MINUTE.get(locale)).append(minutes > 1 ? "s" : "");
-        }
+        if (parts.isEmpty())
+            return "0 " + Lang.SECOND.get(locale);
+        if (parts.size() == 1)
+            return parts.getFirst();
 
-        if (seconds > 0) {
-            if (!s.isEmpty() && minutes > 0) s.append(" ").append(Lang.AND.get(locale)).append(" ");
-            s.append(seconds).append(" ").append(Lang.SECOND.get(locale)).append(seconds > 1 ? "s" : "");
-        }
-
-        return !s.isEmpty() ? s.toString().trim() : Lang.MILLISECOND.get(locale);
+        return String.join(", ", parts.subList(0, parts.size() - 1))
+                + " " + Lang.AND.get(locale) + " "
+                + parts.getLast();
     }
 
+    //TODO: the same code improvement as getRemainingTime | just lazy lol
     public static String getRemainingTimeSmall(long time) {
         StringBuilder s = new StringBuilder();
         Duration remainingTime = Duration.ofMillis(time);
