@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"unused", "deprecation"})
 public class ItemBuilder implements Cloneable {
     public ItemStack item;
-    public int slot;
+    public List<Integer> slots = new ArrayList<>();
 
     public ItemBuilder(ItemStack item) {
         this.item = item.clone();
@@ -91,6 +91,8 @@ public class ItemBuilder implements Cloneable {
         if(lore != null) setLore(lore);
         if(c.getString(path+".slot") != null)
             setSlot(c.getInt(path+".slot"));
+        if(c.getString(path+".slots") != null)
+            setSlots(c.getIntegerList(path+".slots"));
         String skullUrl = c.getString(path+".skull-value");
         String skull = c.getString(path+".skull");
         if(skull != null)
@@ -198,8 +200,12 @@ public class ItemBuilder implements Cloneable {
     }
 
     public ItemBuilder setSlot(int slot){
-        this.slot = slot;
+        slots = List.of(slot);
         return this;
+    }
+
+    public Integer getSlot(){
+        return slots.getFirst();
     }
 
     public ItemBuilder setLore(String... lore) {
@@ -353,7 +359,7 @@ public class ItemBuilder implements Cloneable {
         try {
             ItemBuilder clone = (ItemBuilder) super.clone();
             clone.setItem(this.item.clone());
-            clone.setSlot(this.slot);
+            clone.setSlots(this.slots);
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
