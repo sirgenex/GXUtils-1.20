@@ -130,10 +130,14 @@ public class Formatter {
     }
 
     public static String formatType(String type){
+        if (type == null || type.isBlank()) return "";
         StringBuilder s = new StringBuilder();
         for (String str : type.split("_")) {
-            s.append(str.substring(0, 1).toUpperCase());
-            s.append(str.substring(1).toLowerCase());
+            if (str.isBlank()) continue;
+            s.append(Character.toUpperCase(str.charAt(0)));
+            if (str.length() > 1) {
+                s.append(str.substring(1).toLowerCase());
+            }
             s.append(" ");
         }
         return s.toString().trim();
