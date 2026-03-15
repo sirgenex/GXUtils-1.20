@@ -13,6 +13,7 @@ import java.util.Objects;
 public class LocationUtils {
 
     public static String toString(Location loc) {
+        if(loc.getWorld() == null) return null;
         String world = Objects.requireNonNull(loc.getWorld()).getName();
         int x = loc.getBlockX();
         int y = loc.getBlockY();
@@ -23,6 +24,7 @@ public class LocationUtils {
     }
 
     public static String toBeatifulString(Location loc, boolean w){
+        if(loc.getWorld() == null) return null;
         String world = Objects.requireNonNull(loc.getWorld()).getName();
         int x = loc.getBlockX();
         int y = loc.getBlockY();
@@ -44,6 +46,7 @@ public class LocationUtils {
         if(loc == null) return Bukkit.getWorlds().getFirst().getSpawnLocation();
         if(loc.split(";").length < 6) return Bukkit.getWorlds().getFirst().getSpawnLocation();
         World world = Bukkit.getWorld(loc.split(";")[0].split("=")[1]);
+        if(world == null) return Bukkit.getWorlds().getFirst().getSpawnLocation();
         int x = Integer.parseInt(loc.split(";")[1].split("=")[1]);
         int y = Integer.parseInt(loc.split(";")[2].split("=")[1]);
         int z = Integer.parseInt(loc.split(";")[3].split("=")[1]);
