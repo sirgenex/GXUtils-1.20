@@ -1,5 +1,6 @@
 package br.com.srgenex.utils;
 
+import br.com.srgenex.utils.armor.listener.ArmorListener;
 import br.com.srgenex.utils.enums.Locale;
 import br.com.srgenex.utils.inventory.listener.ToolingHandler;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class GXUtils {
 
     public static void load(Plugin plugin){
         Bukkit.getPluginManager().registerEvents(new ToolingHandler(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ArmorListener(), plugin);
         instance = plugin;
         locale = Locale.PORTUGUESE;
     }
